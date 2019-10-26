@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+
+    <style>
+        .fullbody {
+            background-color: rgb(42, 184, 172);
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+
+        }
+
+        .divElement {
+            border-radius: 10px;
+            position: absolute;
+            margin: auto;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            width: 30%;
+            height: 70%;
+            background-color: rgb(165, 199, 133);
+            display: block;
+        }
+
+        .textfield{
+
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            height: 8%;
+            width: 60%;
+            border-radius: 10px;
+            align-self: auto;
+            position: absolute;
+            margin-top: 25%;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: auto;
+            padding:auto;
+            
+        }
+
+        .forbutton{
+
+            font-size:30px;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            height: 8%;
+            width: 60%;
+            border-radius: 10px;
+            align-self: auto;
+            position: absolute;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 85%;
+            background-color: chartreuse;
+            
+        }
+
+  
+    </style>
+</head>
+
+<body>
+    <div align="center" class="fullbody">
+        <div align="center" class="divElement">
+
+            <div>
+                <h1 align = 'center'>Create an account</h1>
+            </div>
+            <div >
+
+            <form action="registration" method="POST">
+                    {% csrf_token %}
+                <div>
+                    <input required class="textfield" type="text" name="Name" id="" placeholder="Name" style="text-align: center"> 
+                </div>
+                <div>
+                    <input required class="textfield" type="email" name="Email" id="" placeholder="Email" style="text-align: center;margin-top:40%"> 
+                </div>
+                
+                <div>
+                    <input required class="textfield" type="password" name="Password1" id="" placeholder="Password" style="text-align: center;margin-top:55%">
+                </div>
+                <div>
+                    <input required class="textfield" type="password" name="Password2" id="" placeholder="Retype Password" style="text-align: center;margin-top:70%">
+                </div>
+
+                <div>
+                    <input class="forbutton" type="submit" value="Sign up" >
+                </div>
+
+                <div style="margin-top:88%">
+                    <a   href="login">already have an account?</a>
+                </div>
+
+            </form>
+                <div style="margin-top: 5%">
+                    {% for message in messages %}
+                    <h3 style = '-webkit-text-fill-color: red'>{{message}}</h3>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>  
+    </div>
+
+</body>
+
+</html>

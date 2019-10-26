@@ -1,0 +1,41 @@
+.fullbody {
+    background-color: rgb(42, 184, 172);
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+}
+
+.divElement {
+    border-radius: 10px;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 400px;
+    height: 400px;
+    background-color: rgb(165, 199, 133)
+}
+
+.textfield{
+
+    height: 30px;
+    width: 200px;
+    border-radius: 30px;
+    margin-right: 10px
+    
+}
+
+.forbutton{
+
+    font-size:30px;
+    height: 40px;
+    width: 200px;
+    border-radius: 30px;
+    margin-right: 10px
+    
+}

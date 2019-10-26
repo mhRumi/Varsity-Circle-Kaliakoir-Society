@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        .fullbody {
+            background-color: rgb(42, 184, 172);
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+
+        }
+
+        .divElement {
+            border-radius: 10px;
+            position: absolute;
+            margin: auto;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            width: 400px;
+            height: 400px;
+            background-color: rgb(165, 199, 133);
+            display: inline;
+        }
+
+        .textfield{
+
+            height: 30px;
+            width: 200px;
+            border-radius: 30px;
+            margin-right: 10px
+            
+        }
+
+        .forbutton{
+
+            font-size:30px;
+            height: 40px;
+            width: 200px;
+            border-radius: 30px;
+            margin-right: 10px
+            
+        }
+
+        ​
+    </style>
+
+    <script>
+        function validateForm()
+        {
+            var x = document.forms["login"]["Email"].value;
+            var y = document.forms["login"]["Password"].value;
+            if(x == "" && y == "")
+            {
+                alert("Email and Password must be filled");
+                return false;
+            }
+            else if(x == "")
+            {
+                alert("Email must be filled");
+                return false;
+            }
+            else{
+                alert("Password must be filled");
+                return false;
+            }
+        }
+    </script>
+</head>
+
+<body>
+
+
+    <div align="center" class="fullbody">
+        <div align="center" class="divElement">
+
+            <form name="" action=" " method="POST" >
+                {% csrf_token %}
+                    <input required class="textfield" type="text" name="Email" id="" placeholder="Email" style="text-align: center;margin-top: 100px"> <br>
+                    <input required class="textfield" type="text" name="Password" id="" placeholder="Password" style="text-align: center;margin-top: 30px"><br>
+        
+                    <input class="forbutton" type="submit" value="Login" style="margin-top: 30px;background-color: chartreuse">
+            </form>
+
+            <div style="margin-top: 45px">
+                    {% for message in messages %}
+                        <h3 style = '-webkit-text-fill-color: red'>{{message}}</h3>
+                        {% endfor %}
+            </div>
+            
+
+            <div style="margin-top: 15px">
+                    <a href="registration">Sign up</a>
+            </div>
+        </div>
+        
+    </div>
+
+</body>
+
+</html>
