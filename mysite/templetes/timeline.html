@@ -12,17 +12,20 @@
 /* Create three unequal columns that floats next to each other */
 .column {
   float: left;
-  padding: 10px;
-  height: 300px; /* Should be removed. Only for demonstration */
+  padding: 2%;
+  height: 100%; /* Should be removed. Only for demonstration */
 }
 
 .left, .right {
   width: 25%;
+  
+  height:calc(100vh - 40px);
 }
 
 .middle {
   width: 50%;
-
+  overflow-y: scroll;
+  height:calc(100vh - 40px);
   
 }
 
@@ -36,6 +39,7 @@
 
 
 .status{
+    border: 2px solid #ccc;
     border-radius: 10px;
     width: 80%;
     height: auto;
@@ -128,7 +132,7 @@
       }
 
       .open-button {
-        display: none;
+        
         background-color:rgb(37, 37, 194);
         color: white;
         padding: 16px 20px;
@@ -137,19 +141,107 @@
         opacity: 0.8;
         width: 280px;
       }      
+      .containerImage {
+        border: 2px solid #ccc;
+        background-color: #eee;
+        border-radius: 5px;
+        padding: 16px;
+        margin: 16px 0
+      }
       
+      .status::after {
+        content: "";
+        clear: both;
+        display: table;
+      }
+      
+      .status img {
+        float: left;
+        margin-right: 20px;
+        border-radius: 50%;
+      }
+      
+      .status span {
+        font-size: 20px;
+        margin-right: 15px;
+      }
+      
+      @media (max-width: 500px) {
+        .status {
+            text-align: center;
+        }
+        .status img {
+            margin: auto;
+            float: none;
+            display: block;
+        }   
+          
+          /* The popup chat - hidden by default */
+          .chat-popup {
+            display: none;
+            min-width: 80%;
+            border: 3px solid #f1f1f1;
+            z-index: 9;
+          }
+          
+          /* Add styles to the form container */
+          .form-container {
+            max-width: 100%;
+            padding: 2%;
+            background-color: white;
+          }
+          
+          /* Full-width textarea */
+          .form-container textarea {
+            width: 100%;
+            
+            margin: 5px 0 22px 0;
+            border: none;
+            background: #f1f1f1;
+            resize: none;
+            min-height: 200px;
+          }
+          
+          /* When the textarea gets focus, do something */
+          .form-container textarea:focus {
+            background-color: #ddd;
+            outline: none;
+          }
+          
+          /* Set a style for the submit/send button */
+          .form-container .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 16px 20px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom:10px;
+            opacity: 0.8;
+          }
+          
+          /* Add a red background color to the cancel button */
+          .form-container .cancel {
+            background-color: red;
+          }
+          
+          /* Add some hover effects to buttons */
+          .form-container .btn:hover, .open-button:hover {
+            opacity: 1;
+          } 
 </style>
 </head>
 <body>
 
-<h2>Three Unequal Columns</h2>
+<h2>Varsity Circle Kaliakoir Society</h2>
 
 <div class="row">
   <div class="column left" style="background-color:#aaa;">
         <div onmouseover="mouseOver(this)">
-            <img title="update" class="imgdiv" src="{% static "user.png" %}" alt="">
+            <img title="update" class="imgdiv" src="{{pic.image}}" alt="">
         </div>
   </div>
+
   <div align = "center" class="column middle" style="background-color:rgb(187, 187, 187);">
         <div class="idea"  >
             <form class="form-container" action="status" method="POST">
@@ -169,9 +261,11 @@
 
                     {% for s in status %}
 
-                <div class="status" onmouseover="hidebutton()">
-                    <h3 >{{s.name}}</h3>
-                    <p style="color: rgb(9, 9, 10);font-size:100%;"> {{s.status}}</p> 
+                <div  class="status" onmouseover="hidebutton()">
+                    <img  src="{% static "user.png" %}" alt="Avatar" style="width:40px">
+                    <!-- <h3 align = "left">{{s.name}}</h3> -->
+                    <a align = "left" href="#">{{s.name}} </a>
+                    <p style="color: rgb(9, 9, 10);max-width: 80%;font-size:100%;"> {{s.status}}</p> 
 
                     <div class="rowlike" >
                             <div class="columnlike" id="like" >
@@ -189,9 +283,20 @@
                  
   </div>
 
-  <div class="column right" style="background-color:#ccc;">
-    
-  </div>
+  <div align = "center" class="column right" style="background-color:#ccc;">
+        <button class="open-button" style="width: 80%" onclick="openForm()">Chat</button>
+        <div class="chat-popup" id="myForm">
+                <form action="" class="form-container">
+                  <h1>Chat</h1>
+              
+                  <label for="msg"><b>Message</b></label>
+                  <textarea placeholder="Type message." name="msg" required></textarea>
+              
+                  <button type="submit" class="btn">Send</button>
+                  <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+                </form>
+              </div>
+    </div>
 </div>
 
 <script>
@@ -215,6 +320,14 @@
     function showbutton(){
         document.getElementById("share").style.display = "block";
     }
+
+    function openForm() {
+        document.getElementById("myForm").style.display = "block";
+        }
+        
+        function closeForm() {
+        document.getElementById("myForm").style.display = "none";
+        }
 </script>
 
 </body>

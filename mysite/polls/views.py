@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
-from .models import Status
+from .models import Status, Userlogin
 
 # Create your views here.
 def login(request):
@@ -15,7 +15,6 @@ def login(request):
 
         if(user is not None):
             auth.login(request, user)
-             #return render(request, 'timeline.html')
             return timeline(request)
         else:
             messages.info(request, 'Incorrect email or password')
@@ -29,8 +28,9 @@ def timeline(request):
 
     for s in status:
         print(s.email+"  "+ s.status)
-    context = {'status':status}
-    return render(request, 'timeline.html', context)
+        status = Status.objects.order_by('time')
+        pic = Userlogin.objects.filter(name = 'admin')
+        return render(request, 'timeline.html', {'status': status}, {'pic': pic})
 
 def registration(request):
     if( request.method == 'POST'):
@@ -41,14 +41,13 @@ def registration(request):
 
         if(password1 == password2):
 
-            if( name and email):
-                user = User.objects.create_user(username = name, password = password1, email = email)
-                user.save()
-                print('Registration Successfull')
-                return render(request, 'timeline.html')
-            else:
-                messages.info(request, 'All field are required')
-                return redirect('registration')
+            user = User.objects.create_user(username = name, password = password1, email = email)
+            user.save()
+
+            anotherUser = Userlogin(name = name, email = email, password = password1, image= 'user.png')
+            anotherUser.save()
+            status = Status.objects.order_by('time')
+            return render(request, 'timeline.html', {'status': status})
         else:
             messages.info(request, 'Password does not match')
             return redirect('registration')
