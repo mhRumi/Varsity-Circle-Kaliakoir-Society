@@ -24,13 +24,13 @@ def login(request):
         return render(request, 'login.html')
 
 def timeline(request):
-    status = Status.objects.order_by('time')
-
-    for s in status:
-        print(s.email+"  "+ s.status)
-        status = Status.objects.order_by('time')
-        pic = Userlogin.objects.filter(name = 'admin')
-        return render(request, 'timeline.html', {'status': status}, {'pic': pic})
+    status = Status.objects.order_by('-id') 
+    user = Userlogin.objects.filter(name = 'Rumi')
+    image = ""
+    for s in user:
+        image = s.image
+    print(image)
+    return render(request, 'timeline.html', {'status': status}, {'image': image})
 
 def registration(request):
     if( request.method == 'POST'):
@@ -59,7 +59,7 @@ def status(request):
         status = request.POST['status']
         new_status = Status(email = 'rumiswe@gmail.com', status = status, like = 0, name = 'rumi')
         new_status.save()
-        status = Status.objects.order_by('time')
+        status = Status.objects.order_by('-id')
         return render(request, 'timeline.html', {'status': status})
     else:
         return redirect('/')
