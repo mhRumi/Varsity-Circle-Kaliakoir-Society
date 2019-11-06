@@ -7,14 +7,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{% static 'timeline.css' %}">
+    <style>
+            .container {
+              position: relative;
+              width: 80%;
+            }
+            
+            .image {
+              display: block;
+              width: 100%;
+              height: auto;
+            }
+            
+            .overlay {
+              position: absolute;
+              bottom: 50%;
+              left: 5%;         
+              right: 0;
+              background-color: rgb(10, 17, 19);
+              overflow: hidden; 
+              width: 90%;
+              height:0;
+              transition: .5s ease;
+              opacity: 0.7;
+            }
+            
+            .container:hover .overlay {
+              bottom: 0;
+              height: 100%;
+            }
+            
+            .text {
+              color: white;
+              font-size: 20px;
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              -webkit-transform: translate(-50%, -50%);
+              -ms-transform: translate(-50%, -50%);
+              transform: translate(-50%, -50%);
+              text-align: center;
+            }
+            .avatar {   
+                vertical-align: middle;
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                
+              }
+            </style>
 
 </head>
 <body>
 
 <div class="row">   
   <div class="column left" style="background-color:#aaa;">
-        <div onmouseover="mouseOver(this)">
-            <img title="update" class="imgdiv" src="media/rumi.jpg" alt="">
+        <div class="container"  style="margin-left: 3%">
+                <img src="{{user.profile.image.url}}" alt="Avatar" class="image">
+                <div class="overlay">
+                  <div class="text">Update</div>
+                </div>
         </div>
   </div>
 
@@ -22,7 +74,7 @@
         <div class="idea"  >
             <form class="form-container" action="status" method="POST">
                         {% csrf_token %}
-                <div >
+                <div style="height: auto">
                     <textarea onclick="showbutton()" placeholder="What's on your mind ???" name="status" required></textarea>
                 </div>
                         
@@ -36,8 +88,8 @@
 
                 <div  class="status" onmouseover="hidebutton()">
                     <div class="row">
-                        <div style="margin-left: 2%;height:8%">
-                            <img  src="media/rumi.jpg" alt="Avatar" style="width:8%">
+                        <div style="margin-left: 3%;height:8%">
+                            <img class="avatar" src="{{user.profile.image.url}}" alt="Avatar">
                             <a align = "left"  href="#">{{s.name}} </a>
                         </div>
                     </div>

@@ -23,6 +23,8 @@ urlpatterns = [
     path('', include('polls.urls')),
     path('registration', include('polls.urls')),
     path('timeline', include('polls.urls')),
+    path('galary', include('polls.urls')),
+    path('me', include('polls.urls')),
     path('admin/', admin.site.urls),
 ]
 

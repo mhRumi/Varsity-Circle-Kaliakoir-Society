@@ -2,7 +2,8 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
-from .models import Status, Userlogin
+from .models import Status, Userlogin, Education, Work, Profile
+from django.core import serializers
 
 # Create your views here.
 def login(request):
@@ -63,3 +64,15 @@ def status(request):
         return render(request, 'timeline.html', {'status': status})
     else:
         return redirect('/')
+
+def galary(request):
+    image = Profile.objects.all()
+    for i in image:
+        print(i.image)
+    return render(request, 'galary.html', {'image': image})
+
+def me(request):
+    work = Work.objects.all()
+    info = Education.objects.all()
+
+    return render(request, 'me.html', { 'work': work, 'education': info} )
