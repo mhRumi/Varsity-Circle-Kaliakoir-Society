@@ -8,6 +8,7 @@
 <body>
 
 <div class="container" style="margin-top: 1%">
+
   <div class="mySlides">
     <div class="numbertext">1 / 6</div>
     <img src="media/rumi.jpg" height="10%" style="width:100%">
@@ -32,9 +33,10 @@
 
   <div class="mySlides">
     <div class="numbertext">5 / 6</div>
-    <img src="media/{{i.image}}" style="width:100%">
+    <img src="{{i.image}}" style="width:100%">
   </div>
     {% endfor %}
+    
   <a class="prev" onclick="plusSlides(-1)">❮</a>
   <a class="next" onclick="plusSlides(1)">❯</a>
 

@@ -4,6 +4,8 @@ from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from .models import Status, Userlogin, Education, Work, Profile
 from django.core import serializers
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 
 # Create your views here.
 def login(request):
@@ -23,7 +25,7 @@ def login(request):
 
     else:
         return render(request, 'login.html')
-
+@login_required
 def timeline(request):
     status = Status.objects.order_by('-id') 
     user = Userlogin.objects.filter(name = 'Rumi')
@@ -71,8 +73,16 @@ def galary(request):
         print(i.image)
     return render(request, 'galary.html', {'image': image})
 
+@login_required
 def me(request):
     work = Work.objects.all()
-    info = Education.objects.all()
+    print("*******************************************") 
+    print(User.username) 
+    print("*******************************************")    
+    info = Education.objects.filter( user_id = User.id)
 
     return render(request, 'me.html', { 'work': work, 'education': info} )
+
+def logoutUser(request):
+    logout(request)
+    return redirect('/')

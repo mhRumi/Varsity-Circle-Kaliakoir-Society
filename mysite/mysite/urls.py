@@ -26,6 +26,8 @@ urlpatterns = [
     path('galary', include('polls.urls')),
     path('me', include('polls.urls')),
     path('admin/', admin.site.urls),
+    path('logoutUser', include('polls.urls')),
+    path('login', include('polls.urls')),
 ]
 
 if settings.DEBUG:
