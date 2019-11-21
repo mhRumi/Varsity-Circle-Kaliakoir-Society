@@ -7,12 +7,15 @@ from django.core import serializers
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 
+name = ""
+
 # Create your views here.
 def login(request):
 
     if(request.method == 'POST'):
         email = request.POST['Email']
         password = request.POST['Password']
+        name = email
 
         user = auth.authenticate(username = email, password = password)
 
@@ -76,13 +79,16 @@ def galary(request):
 @login_required
 def me(request):
     work = Work.objects.all()
-    print("*******************************************") 
-    print(User.username) 
-    print("*******************************************")    
-    info = Education.objects.filter( user_id = User.id)
+    test = User.objects.filter(username = name)
+    for x in test:
+        print(x.id + " ****************")   
+    info = Education.objects.all()
 
     return render(request, 'me.html', { 'work': work, 'education': info} )
 
 def logoutUser(request):
     logout(request)
     return redirect('/')
+
+def members(request):
+    return render(request, 'members.html')

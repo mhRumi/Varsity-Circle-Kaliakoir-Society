@@ -28,6 +28,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('logoutUser', include('polls.urls')),
     path('login', include('polls.urls')),
+    path('members', include('polls.urls')),
 ]
 
 if settings.DEBUG:

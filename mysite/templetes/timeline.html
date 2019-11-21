@@ -74,8 +74,8 @@
         <div class="idea"  >
             <form class="form-container" action="status" method="POST">
                         {% csrf_token %}
-                <div style="height: auto">
-                    <textarea onclick="showbutton()" placeholder="What's on your mind ???" name="status" required></textarea>
+                <div style="height: 10%;">
+                    <textarea onclick="showbutton()" oninput="resizeStatus(this)" placeholder="What's on your mind ???" name="status" required></textarea>
                 </div>
                         
                
@@ -90,12 +90,15 @@
                     <div class="row">
                         <div style="margin-left: 3%;height:8%">
                             <img class="avatar" src="{{user.profile.image.url}}" alt="Avatar">
-                            <a align = "left"  href="#">{{s.name}} </a>
+                            <a align = "left"  href="#">{{s.name}} </a> 
+                            {{s.time}}
+  
                         </div>
                     </div>
 
-                    <div style="color: rgb(9, 9, 10);width:90%">
-                         <p > {{s.status}}</p> 
+                    <div style="color: rgb(9, 9, 10);width:97%;" align = "left">
+                         <!--   <p > {{s.status}}</p>  -->
+                         {{s.status}}
                     </div>
                     
                     <div class="rowlike" >
@@ -107,6 +110,13 @@
                             <i class="fa fa-comment"></i>
                         </div>                       
                     </div>
+                    <!-- comments section -->
+                        <div> 
+                          <form action="" class="comment">
+                              <textarea name="" oninput="resize(this)" id="comment" placeholder="write a comment" rows="1"></textarea>
+                          </form>
+                        </div>
+
                 
                 </div>
 
@@ -118,10 +128,7 @@
         <button class="open-button" style="width: 100%" onclick="openForm()">Chat</button>
         <div class="chat-popup" id="myForm">
                 <form action="" class="form-container">
-                  <h1>Chat</h1>
-              
-                  <textarea placeholder="Type message." name="msg" required></textarea>
-              
+                  <textarea  placeholder="Type message." name="msg" required></textarea>
                   <button type="submit" class="btn">Send</button>
                   <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
                 </form>
@@ -129,7 +136,18 @@
     </div>
 </div>
 
+
+
 <script>
+
+    function resize(comment){
+      comment.style.height = 'auto';
+      comment.style.height = (comment.scrollHeight) + "px" ;
+    }
+    function resizeStatus(element){
+      element.style.height = 'auto';
+      element.style.height = (element.scrollHeight) + "px" ;
+    }  
     function move(x, s){
         x.innerHTML = s;
     }
