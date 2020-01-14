@@ -2,13 +2,12 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
-from .models import Status, Userlogin, Education, Work, Profile
+from .models import Status, Userlogin, Education, Work, Profile, Comments
 from django.core import serializers
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 name = ""
-
 # Create your views here.
 def login(request):
 
@@ -21,7 +20,7 @@ def login(request):
 
         if(user is not None):
             auth.login(request, user)
-            return timeline(request)
+            return redirect('/timeline')
         else:
             messages.info(request, 'Incorrect email or password')
             return redirect('/')
@@ -79,9 +78,7 @@ def galary(request):
 @login_required
 def me(request):
     work = Work.objects.all()
-    test = User.objects.filter(username = name)
-    for x in test:
-        print(x.id + " ****************")   
+    test = User.objects.filter(username = name)   
     info = Education.objects.all()
 
     return render(request, 'me.html', { 'work': work, 'education': info} )
@@ -92,3 +89,25 @@ def logoutUser(request):
 
 def members(request):
     return render(request, 'members.html')
+
+def deletePost(request, pk):
+    if(request.method == 'POST'):
+        model = Status.objects.get(pk=pk)
+        model.delete()
+    return redirect('/timeline')
+
+def comments(request):
+    if(request.method == 'POST'):
+        name = request.POST['Name']
+        cmnt = request.POST['Comment']
+        pk = request.POST['PK']
+        New_comment = Comments(Name = name, comment = cmnt, user_id = pk)
+        New_comment.save()
+    return redirect('/timeline')
+
+def viewStatus(request):
+    if(request.method == 'POST'):
+        pk = request.POST['pk']
+        status = Status.objects.get(pk = pk)
+        comment = Comments.objects.filter(user_id = pk) 
+        return render(request, 'ViewStatus.html', {'status': status, 'comment': comment, 'postId': pk})

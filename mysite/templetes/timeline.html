@@ -7,7 +7,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{% static 'timeline.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+      
     <style>
+      .delete{
+        width: 60px;
+        height: 15%;
+        background-color: rgb(223, 65, 65);
+        text-align: left;
+        right: 0;
+
+      }
             .container {
               position: relative;
               width: 80%;
@@ -77,50 +87,71 @@
                 <div style="height: 10%;">
                     <textarea onclick="showbutton()" oninput="resizeStatus(this)" placeholder="What's on your mind ???" name="status" required></textarea>
                 </div>
-                        
-               
-                <input type="submit" class="open-button" id="share" value="Share">
+                <button type="submit" class="btn btn-outline-primary" id = "share">Share</button>
                 
             </form>
         </div>
 
-                    {% for s in status %}
+             {% for s in status %}
 
                 <div  class="status" onmouseover="hidebutton()">
-                    <div class="row">
+                    <div class="row" >
                         <div style="margin-left: 3%;height:8%">
                             <img class="avatar" src="{{user.profile.image.url}}" alt="Avatar">
-                            <a align = "left"  href="#">{{s.name}} </a> 
-                            {{s.time}}
-  
+                        </div>
+                        <div class="col-3 ">
+                            <a href="#">{{s.name}} </a>
+                        </div>
+                        <div class="col-4 " >
+                            <p align = "center">{{s.time}}</p>
+                        </div>
+
+                        <div class="col ">
+                         
+                              <form action="{% url 'deletePost' s.pk %}" method="POST">
+                                  {% csrf_token %}
+                                  <div align = "right">
+                                    <button data-toggle="tooltip" title="Delete" type="submit" class="fa fa-ellipsis-h" style="font-size:20px;border:none"></button>
+                                </form>
+                          </div>
+                           
                         </div>
                     </div>
 
                     <div style="color: rgb(9, 9, 10);width:97%;" align = "left">
-                         <!--   <p > {{s.status}}</p>  -->
                          {{s.status}}
                     </div>
-                    
-                    <div class="rowlike" >
-                        <div class="columnlike" id="like" >
+
+                    <div class="row" >
+                        <div class="col" id="like" >
                             <i onmouseout="out(this)" onmouseover="move(this, '{{s.like}}')" onclick="like(this)"  class="fa fa-thumbs-up" ></i>
                         </div> 
                           
-                        <div class="columnlike"  >
-                            <i class="fa fa-comment"></i>
+                        <div class="col"  >
+                           <form action="viewStatus" method="POST">
+                              {% csrf_token %}
+                              <input type="hidden" value="{{s.pk}}" name="pk">
+                              <button type="submit" class="fa fa-comment" style="border: none;"></button>
+                           </form>
                         </div>                       
                     </div>
+
+                
                     <!-- comments section -->
-                        <div> 
-                          <form action="" class="comment">
-                              <textarea name="" oninput="resize(this)" id="comment" placeholder="write a comment" rows="1"></textarea>
+                        <div class="comment"> 
+                          <form action="{% url 'comments' %}"  method="POST">
+                              {% csrf_token %}
+                              <textarea name="Comment" onkeydown="keycode(event)" oninput="resize(this)" id="comment" placeholder="write a comment" rows="1" required></textarea>
+                              <input type="hidden" name="Name" value="{{user.username}}">
+                              <input type="hidden" name="PK" value="{{s.pk}}">
+                              <button id="submit" style="display: none;" type="submit"></button>
                           </form>
                         </div>
 
                 
                 </div>
 
-                {% endfor %}
+              {% endfor %}
                  
   </div>
 
@@ -139,6 +170,15 @@
 
 
 <script>
+  $(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();   
+  });
+    function keycode(event){
+      var input = event.keyCode;
+      if(input == 13){
+        document.getElementById("submit").click();
+      }
+    }
 
     function resize(comment){
       comment.style.height = 'auto';
@@ -176,6 +216,7 @@
         function closeForm() {
         document.getElementById("myForm").style.display = "none";
         }
+
 </script>
 
 </body>

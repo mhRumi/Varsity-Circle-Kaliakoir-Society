@@ -29,6 +29,9 @@ urlpatterns = [
     path('logoutUser', include('polls.urls')),
     path('login', include('polls.urls')),
     path('members', include('polls.urls')),
+    path('deletePost/<int:pk>/', include('polls.urls')),
+    path('comments', include('polls.urls')),
+    path('viewStatus', include('polls.urls')),
 ]
 
 if settings.DEBUG:

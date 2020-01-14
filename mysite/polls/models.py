@@ -53,3 +53,8 @@ class Work(models.Model):
     leavingDate = models.DateField(blank = True, null = True)
     description = models.TextField(blank = True)
 
+class Comments(models.Model):
+    user = models.ForeignKey(Status, on_delete = models.CASCADE)
+    Name = models.CharField(max_length = 50, null = True)
+    comment = models.CharField(max_length = 2000, null = False)
+

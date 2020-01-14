@@ -31,7 +31,7 @@
   }
   
   .idea{
-      width: 80%;
+      width: 90%;
       height: auto;
   }
   
@@ -39,31 +39,14 @@
   .status{
       border: 2px solid #ccc;
       border-radius: 5px;
-      width: 80%;
+      width: 90%;
       height: auto;
-      background-color: rgb(242, 248, 237);
+      background-color: white;
       margin-top: 2%;
       }
   
-  
-      .rowlike {margin: 0 -0px;}
-  
-      /* Clear floats after the columns */
-      .rowlike:after {
-          height: 10%;
-          content: "";
-          display: table;
-          clear: both;
-          }
-  
-      .columnlike {
-          float: left;
-          width: 50%;
-          padding: 0 5px;
-          background-color: rgb(238, 231, 231);
-       }
        .fa {
-          font-size: 50px;
+          font-size: 35px;
           cursor: pointer;
           user-select: none;
         }
@@ -95,14 +78,14 @@
           resize: none;
         }
         .comment{
-          
+          resize: none;
           max-width: 99%;
           padding: 1%;
           background-color: white;
         }
         .comment textarea{
           width: 90%;
-          resize: horizontal;
+          resize: none;
     
         }
         

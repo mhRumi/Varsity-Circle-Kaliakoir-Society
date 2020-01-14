@@ -11,5 +11,8 @@ urlpatterns = [
     path('login', views.login, name = 'login'),
     path('logoutUser', views.logoutUser, name = 'logoutUser'),
     path('members', views.members, name = 'members'),
+    path('deletePost/<int:pk>/', views.deletePost, name = 'deletePost'),
+    path('comments', views.comments, name = 'comments'),
+    path('viewStatus', views.viewStatus, name = 'viewStatus'),
 ]
 

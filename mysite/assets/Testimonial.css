@@ -1,0 +1,37 @@
+.testimonial {
+    background-color: #eee;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    width: 90%;
+    height: auto;
+    background-color: white;
+    margin-top: 2%;
+  }
+  
+  .testimonial::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+  
+  .testimonial img {
+    float: left;
+    margin-right: 5px;
+    border-radius: 50%;
+  }
+  
+  .testimonial span {
+    font-size: 20px;
+    margin-right: 15px;
+  }
+  
+  @media (max-width: 500px) {
+    .testimonial {
+        text-align: center;
+    }
+    .testimonial img {
+        margin: auto;
+        float: none;
+        display: block;
+    }
+  }
