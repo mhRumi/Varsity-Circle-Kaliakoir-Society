@@ -3,222 +3,217 @@
 {% block content %}
 <!DOCTYPE html>
 <html>
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="{% static 'timeline.css' %}">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-      
-    <style>
-      .delete{
-        width: 60px;
-        height: 15%;
-        background-color: rgb(223, 65, 65);
-        text-align: left;
-        right: 0;
 
-      }
-            .container {
-              position: relative;
-              width: 80%;
-            }
-            
-            .image {
-              display: block;
-              width: 100%;
-              height: auto;
-            }
-            
-            .overlay {
-              position: absolute;
-              bottom: 50%;
-              left: 5%;         
-              right: 0;
-              background-color: rgb(10, 17, 19);
-              overflow: hidden; 
-              width: 90%;
-              height:0;
-              transition: .5s ease;
-              opacity: 0.7;
-            }
-            
-            .container:hover .overlay {
-              bottom: 0;
-              height: 100%;
-            }
-            
-            .text {
-              color: white;
-              font-size: 20px;
-              position: absolute;
-              top: 50%;
-              left: 50%;
-              -webkit-transform: translate(-50%, -50%);
-              -ms-transform: translate(-50%, -50%);
-              transform: translate(-50%, -50%);
-              text-align: center;
-            }
-            .avatar {   
-                vertical-align: middle;
-                width: 50px;
-                height: 50px;
-                border-radius: 50%;
-                
-              }
-            </style>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="{% static 'timeline.css' %}">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+  <style>
+    .delete {
+      width: 60px;
+      height: 15%;
+      background-color: rgb(223, 65, 65);
+      text-align: left;
+      right: 0;
+
+    }
+
+    .container {
+      position: relative;
+    }
+
+    .image {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .overlay {
+      position: absolute;
+      bottom: 50%;
+      left: 5%;
+      right: 0;
+      background-color: rgb(10, 17, 19);
+      overflow: hidden;
+      width: 90%;
+      height: 0;
+      transition: .5s ease;
+      opacity: 0.7;
+    }
+
+    .text {
+      color: white;
+      font-size: 20px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+
+    .avatar {
+      vertical-align: middle;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+
+    }
+  </style>
 
 </head>
-<body>
 
-<div class="row">   
-  <div class="column left" style="background-color:#aaa;">
-        <div class="container"  style="margin-left: 3%">
-                <img src="{{user.profile.image.url}}" alt="Avatar" class="image">
-                <div class="overlay">
-                  <div class="text">Update</div>
-                </div>
-        </div>
-  </div>
-
-  <div align = "center" class="column middle" style="background-color:rgb(187, 187, 187);">
-        <div class="idea"  >
-            <form class="form-container" action="status" method="POST">
-                        {% csrf_token %}
-                <div style="height: 10%;">
-                    <textarea onclick="showbutton()" oninput="resizeStatus(this)" placeholder="What's on your mind ???" name="status" required></textarea>
-                </div>
-                <button type="submit" class="btn btn-outline-primary" id = "share">Share</button>
-                
-            </form>
-        </div>
-
-             {% for s in status %}
-
-                <div  class="status" onmouseover="hidebutton()">
-                    <div class="row" >
-                        <div style="margin-left: 3%;height:8%">
-                            <img class="avatar" src="{{user.profile.image.url}}" alt="Avatar">
-                        </div>
-                        <div class="col-3 ">
-                            <a href="#">{{s.name}} </a>
-                        </div>
-                        <div class="col-4 " >
-                            <p align = "center">{{s.time}}</p>
-                        </div>
-
-                        <div class="col ">
-                         
-                              <form action="{% url 'deletePost' s.pk %}" method="POST">
-                                  {% csrf_token %}
-                                  <div align = "right">
-                                    <button data-toggle="tooltip" title="Delete" type="submit" class="fa fa-ellipsis-h" style="font-size:20px;border:none"></button>
-                                </form>
-                          </div>
-                           
-                        </div>
-                    </div>
-
-                    <div style="color: rgb(9, 9, 10);width:97%;" align = "left">
-                         {{s.status}}
-                    </div>
-
-                    <div class="row" >
-                        <div class="col" id="like" >
-                            <i onmouseout="out(this)" onmouseover="move(this, '{{s.like}}')" onclick="like(this)"  class="fa fa-thumbs-up" ></i>
-                        </div> 
-                          
-                        <div class="col"  >
-                           <form action="viewStatus" method="POST">
-                              {% csrf_token %}
-                              <input type="hidden" value="{{s.pk}}" name="pk">
-                              <button type="submit" class="fa fa-comment" style="border: none;"></button>
-                           </form>
-                        </div>                       
-                    </div>
-
-                
-                    <!-- comments section -->
-                        <div class="comment"> 
-                          <form action="{% url 'comments' %}"  method="POST">
-                              {% csrf_token %}
-                              <textarea name="Comment" onkeydown="keycode(event)" oninput="resize(this)" id="comment" placeholder="write a comment" rows="1" required></textarea>
-                              <input type="hidden" name="Name" value="{{user.username}}">
-                              <input type="hidden" name="PK" value="{{s.pk}}">
-                              <button id="submit" style="display: none;" type="submit"></button>
-                          </form>
-                        </div>
-
-                
-                </div>
-
-              {% endfor %}
-                 
-  </div>
-
-  <div align = "center" class="column right" style="background-color:#ccc">
-        <button class="open-button" style="width: 100%" onclick="openForm()">Chat</button>
-        <div class="chat-popup" id="myForm">
-                <form action="" class="form-container">
-                  <textarea  placeholder="Type message." name="msg" required></textarea>
-                  <button type="submit" class="btn">Send</button>
-                  <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
-                </form>
-              </div>
+<body style="background-color: lightgray;">
+  <div class="row">
+    <div class="column left" style="background-color:white;margin-top:2px;">
+      <div >
+        <img src="{{user.profile.image.url}}" alt="Avatar" class="image">
+      </div>
     </div>
-</div>
+
+    <div align="center" class="column middle" style="background-color:rgb(187, 187, 187);">
+      <div class="idea">
+        <form class="form-container" action="status" method="POST">
+          {% csrf_token %}
+          <div style="height: 10%;">
+            <textarea onclick="showbutton()" oninput="resizeStatus(this)" placeholder="What's on your mind ???"
+              name="status" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-outline-primary" id="share">Share</button>
+
+        </form>
+      </div>
+
+      {% for s in status %}
+
+      <div class="status" onmouseover="hidebutton()">
+        <div class="row">
+          <div style="margin-left: 3%;height:8%">
+            <img class="avatar" src="{{user.profile.image.url}}" alt="Avatar">
+          </div>
+          <div class="col-3 ">
+            <a style="font-family:Georgia;" href="#">{{s.name}} </a>
+          </div>
+          <div class="col-4 ">
+            <p align="center" style="font-size: 80%;padding:1%;">{{s.time}}</p>
+          </div>
+
+          <div class="col ">
+
+            <form action="{% url 'deletePost' s.pk %}" method="POST">
+              {% csrf_token %}
+              <div align="right">
+                <button data-toggle="tooltip" title="Delete" type="submit" class="fa fa-ellipsis-h"
+                  style="font-size:20px;border:none"></button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+
+      <div style="color: rgb(9, 9, 10);width:97%;" align="left">
+        <p style="font-family:Palatino Linotype;">{{s.status}}</p>
+      </div>
+
+      <div class="row">
+        <div class="col-md">
+          <form action="like" method="POST">
+            {% csrf_token %}
+            <input name="email" type="hidden" value="{{s.email}}">
+            <input name="statusId" type="hidden" value="{{s.pk}}">
+            <button type="submit" class="fa fa-thumbs-up" style="border: none;">
+              <!-- <i onmouseout="out(this)" onmouseover="move(this, '{{s.like}}')" onclick="like(this)"  class="fa fa-thumbs-up" ></i> -->
+            </button>
+          </form>
+        </div>
+        <div class="col-md">
+          <form action="viewStatus" method="POST">
+            {% csrf_token %}
+            <input type="hidden" value="{{s.pk}}" name="pk">
+            <button type="submit" class="fa fa-comment" style="border: none;"></button>
+          </form>
+        </div>
+      </div>
+
+      <!-- comments section -->
+      <div class="comment">
+        <form action="{% url 'comments' %}" method="POST">
+          {% csrf_token %}
+          <textarea name="Comment" onkeydown="keycode(event)" oninput="resize(this)" id="comment"
+            placeholder="write a comment" rows="1" required></textarea>
+          <input type="hidden" name="Name" value="{{user.username}}">
+          <input type="hidden" name="PK" value="{{s.pk}}">
+          <button id="submit" style="display: none;" type="submit"></button>
+        </form>
+      </div>
+
+
+    </div>
+
+    {% endfor %}
+
+  </div>
+
+  <div class="column right" style="background-color:#ccc;">
+  </div>
+  </div>
 
 
 
-<script>
-  $(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip();   
-  });
-    function keycode(event){
+  <script>
+    $(document).ready(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+    function keycode(event) {
       var input = event.keyCode;
-      if(input == 13){
+      if (input == 13) {
         document.getElementById("submit").click();
       }
     }
 
-    function resize(comment){
+    function resize(comment) {
       comment.style.height = 'auto';
-      comment.style.height = (comment.scrollHeight) + "px" ;
+      comment.style.height = (comment.scrollHeight) + "px";
     }
-    function resizeStatus(element){
+    function resizeStatus(element) {
       element.style.height = 'auto';
-      element.style.height = (element.scrollHeight) + "px" ;
-    }  
-    function move(x, s){
-        x.innerHTML = s;
+      element.style.height = (element.scrollHeight) + "px";
+    }
+    function move(x, s) {
+      x.innerHTML = s;
     }
 
-    function out(x){
-        x.innerHTML = "";
+    function out(x) {
+      x.innerHTML = "";
     }
 
-    function like(x){
-        x.classList.toggle("fa-thumbs-down");
+    function like(x) {
+      x.classList.toggle("fa-thumbs-down");
 
     }
 
-    function hidebutton(){
-        document.getElementById("share").style.display = "none";
+    function hidebutton() {
+      document.getElementById("share").style.display = "none";
     }
 
-    function showbutton(){
-        document.getElementById("share").style.display = "block";
+    function showbutton() {
+      document.getElementById("share").style.display = "block";
     }
 
     function openForm() {
-        document.getElementById("myForm").style.display = "block";
-        }
-        
-        function closeForm() {
-        document.getElementById("myForm").style.display = "none";
-        }
+      document.getElementById("myForm").style.display = "block";
+    }
 
-</script>
+    function closeForm() {
+      document.getElementById("myForm").style.display = "none";
+    }
+
+  </script>
 
 </body>
+
 </html>
 {% endblock %}

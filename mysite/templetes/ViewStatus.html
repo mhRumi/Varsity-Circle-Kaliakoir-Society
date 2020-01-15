@@ -3,171 +3,197 @@
 {% block content %}
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{% static 'timeline.css' %}">
     <link rel="stylesheet" href="{% static 'Testimonial.css' %}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-      
-    <style>
-      .delete{
-        width: 60px;
-        height: 15%;
-        background-color: rgb(223, 65, 65);
-        text-align: left;
-        right: 0;
 
-      }
+    <style>
+        .delete {
+            width: 60px;
+            height: 15%;
+            background-color: rgb(223, 65, 65);
+            text-align: left;
+            right: 0;
+
+        }
+
         .container {
             position: relative;
             width: 80%;
         }
-                
+
         .image {
             display: block;
             width: 100%;
             height: auto;
         }
-                
-        .avatar {   
+
+        .avatar {
             vertical-align: middle;
             width: 50px;
             height: 50px;
-            border-radius: 50%;          
+            border-radius: 50%;
         }
     </style>
 
 </head>
+
 <body>
 
-<div class="row">   
-    <div class="column left" style="background-color:#aaa;">
-            
-    </div>
-
-  <div align = "center" class="column middle" style="background-color:white;">
-   
-                <div  class="status" >
-                    <div class="row" >
-                        <div style="margin-left: 3%;height:8%">
-                            <img class="avatar" src="{{user.profile.image.url}}" alt="Avatar">
-                        </div>
-                        <div class="col-3 ">
-                            <a href="#">{{status.name}}</a>
-                        </div>
-                        <div class="col-4 " >
-                            <p align = "center">{{status.time}}</p>
-                        </div>
-
-                        <div class="col ">
-                            <form action="{% url 'deletePost' postId %}" method="POST">
-                                  {% csrf_token %}
-                                <div align = "right">
-                                    <button data-toggle="tooltip" title="Delete" type="submit" class="fa fa-ellipsis-h" style="font-size:20px;border:none"></button>
-                                </div>
-                                   
-                            </form>
-                        </div>
-                    </div>   
-                    
-               
-
-                    <div style="color: rgb(9, 9, 10);width:97%;" align = "left">
-                         {{status.status}}
-                    </div>
-
-                    <div class="row" >
-                        <div class="col 2" id="like" >
-                            <i onmouseout="out(this)" onmouseover="move(this, '')" onclick="like(this)"  class="fa fa-thumbs-up" ></i>
-                        </div> 
-                          
-                        <div class="col 2" >
-                           <form action="viewStatus" method="POST">
-                              {% csrf_token %}
-                              <input type="hidden" value="" name="pk">
-                              <button type="submit" class="fa fa-comment" style="border: none;"></button>
-                           </form>
-                        </div>                       
-                    </div>
-
-                
-                    <!-- comments section -->
-                        <div class="comment"> 
-                          <form action="{% url 'comments' postId %}"  method="POST">
-                              {% csrf_token %}
-                              <textarea name="Comment" onkeydown="keycode(event)" oninput="resize(this)" id="comment" placeholder="write a comment" rows="1"></textarea>
-                              <input type="hidden" name="Name" value="{{user.username}}">
-                              <button id="submit" style="display: none;" type="submit"></button>
-                          </form>
-                        </div>
+    <div class="row">
+        <div class="column left" style="background-color:#aaa;">
 
         </div>
-        {% for c in comment %}
-        <div class="testimonial">
-               <div class="row">
-                    <div class="col" >
+
+        <div align="center" class="column middle" style="background-color:white;">
+
+            <div class="status">
+                <div class="row">
+                    <div style="margin-left: 3%;height:8%">
                         <img class="avatar" src="{{user.profile.image.url}}" alt="Avatar">
                     </div>
-                    <div class="col-10" align = "left">
-                        <a href="">{{c.Name}}</a>
-                         <p>{{c.comment}} </p> 
+                    <div class="col-3 ">
+                        <a style="font-family:Georgia;" href="#">{{status.name}}</a>
                     </div>
-               </div>
+                    <div class="col-4 ">
+                        <p align="center" style="font-size: 80%;padding:1%;">{{status.time}}</p>
+                    </div>
+
+                    <div class="col ">
+                        <form action="{% url 'deletePost' postId %}" method="POST">
+                            {% csrf_token %}
+                            <div align="right">
+                                <button data-toggle="tooltip" title="Delete" type="submit" class="fa fa-ellipsis-h"
+                                    style="font-size:20px;border:none"></button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+
+
+                <div style="color: rgb(9, 9, 10);width:97%;" align="left">
+                    <p style="font-family:Palatino Linotype;">{{status.status}}</p>
+                </div>
+
+                <div class="row">
+                    <div class="col 2" id="like">
+                        <i onmouseout="out(this)" onmouseover="move(this, '')" onclick="like(this)"
+                            class="fa fa-thumbs-up"></i>
+                    </div>
+
+                    <div class="col 2">
+                        {% csrf_token %}
+                        <button type="submit" class="fa fa-comment" style="border: none;"></button>
+                    </div>
+                </div>
+
+
+                <!-- comments section -->
+                <div class="comment">
+                    <form action="{% url 'comments' %}" method="POST">
+                        {% csrf_token %}
+                        <textarea name="Comment" onkeydown="keycode(event)" oninput="resize(this)" id="comment"
+                            placeholder="write a comment" rows="1"></textarea>
+                        <input type="hidden" name="Name" value="{{user.username}}">
+                        <input type="hidden" name="PK" value="{{status.pk}}">
+                        <button id="docomment" style="display: none;" type="submit"></button>
+                    </form>
+                </div>
+
+            </div>
+            {% for c in comment %}
+            <div class="testimonial">
+                <div class="row">
+                    <div class="col">
+                        <img class="avatar" src="{{user.profile.image.url}}" alt="Avatar">
+                    </div>
+                    <div class="col-sm-5" align="left">
+                        <a style="font-family:Georgia;" href="">{{c.Name}}</a>
+                        <p style="font-size: 80%;">{{c.time}}</p>
+                    </div>
+                    <div class="col">
+
+                    </div>
+                    <div class="col">
+
+                    </div>
+                    <div class="col-sm-2" align="right">
+                        <form action="deleteComment" method="POST">
+                            {% csrf_token %}
+                            <div align="right">
+                                <input name="pk" type="hidden" value="{{c.pk}}">
+                                <button data-toggle="tooltip" title="Delete" type="submit" class="fa fa-ellipsis-h"
+                                    style="font-size:20px;border:none"></button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-left: 1%;">
+                    <p>{{c.comment}} </p>
+                </div>
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-</div>
-                 
 
 
-    <div align = "center" class="column right" style="background-color:#ccc">
-        
+
+        <div align="center" class="column right" style="background-color:#ccc">
+
+        </div>
+
     </div>
 
-</div>
 
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
 
-<script>
-    $(document).ready(function(){
-        $('[data-toggle="tooltip"]').tooltip();   
-      });
-
-    function keycode(event){
-        var input = event.keyCode;
-        if(input == 13){
-            document.getElementById("submit").click();
-          }
-    }
-
-    function resize(comment){
-      comment.style.height = 'auto';
-      comment.style.height = (comment.scrollHeight) + "px" ;
-    }
-
-    function move(x, s){
-        x.innerHTML = s;
-    }
-
-    function out(x){
-        x.innerHTML = "";
-    }
-
-    function like(x){
-        x.classList.toggle("fa-thumbs-down");
-
-    }
-
-
-    function openForm() {
-        document.getElementById("myForm").style.display = "block";
+        function keycode(event) {
+            var input = event.keyCode;
+            if (input == 13) {
+                document.getElementById("docomment").click();
+            }
         }
-        
+
+        function resize(comment) {
+            comment.style.height = 'auto';
+            comment.style.height = (comment.scrollHeight) + "px";
+        }
+
+        function move(x, s) {
+            x.innerHTML = s;
+        }
+
+        function out(x) {
+            x.innerHTML = "";
+        }
+
+        function like(x) {
+            x.classList.toggle("fa-thumbs-down");
+
+        }
+
+
+        function openForm() {
+            document.getElementById("myForm").style.display = "block";
+        }
+
         function closeForm() {
-        document.getElementById("myForm").style.display = "none";
+            document.getElementById("myForm").style.display = "none";
         }
 
-</script>
+    </script>
 
 </body>
+
 </html>
 {% endblock %}

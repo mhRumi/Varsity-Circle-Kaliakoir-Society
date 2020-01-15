@@ -14,5 +14,8 @@ urlpatterns = [
     path('deletePost/<int:pk>/', views.deletePost, name = 'deletePost'),
     path('comments', views.comments, name = 'comments'),
     path('viewStatus', views.viewStatus, name = 'viewStatus'),
+    path('deleteComment', views.deleteComment, name = 'deleteComment'),
+    path('like', views.like, name = "like"),
+    path('messenger', views.messenger, name = "messenger"),
 ]
 

@@ -32,6 +32,9 @@ urlpatterns = [
     path('deletePost/<int:pk>/', include('polls.urls')),
     path('comments', include('polls.urls')),
     path('viewStatus', include('polls.urls')),
+    path('deleteComment', include('polls.urls')),
+    path('like', include('polls.urls')),
+    path('messenger', include('polls.urls')),
 ]
 
 if settings.DEBUG:

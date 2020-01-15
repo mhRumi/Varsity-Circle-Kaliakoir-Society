@@ -2,11 +2,12 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
-from .models import Status, Userlogin, Education, Work, Profile, Comments
+from .models import Status, Userlogin, Education, Work, Profile, Comments, StatusLike
 from django.core import serializers
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.http import HttpResponseRedirect
 name = ""
 # Create your views here.
 def login(request):
@@ -34,7 +35,6 @@ def timeline(request):
     image = ""
     for s in user:
         image = s.image
-    print(image)
     return render(request, 'timeline.html', {'status': status}, {'image': image})
 
 def registration(request):
@@ -71,8 +71,6 @@ def status(request):
 
 def galary(request):
     image = Profile.objects.all()
-    for i in image:
-        print(i.image)
     return render(request, 'galary.html', {'image': image})
 
 @login_required
@@ -105,9 +103,29 @@ def comments(request):
         New_comment.save()
     return redirect('/timeline')
 
+def deleteComment(request):
+    if(request.method == 'POST'):
+        pk = request.POST['pk']
+        comment = Comments.objects.get(pk = pk)
+        comment.delete()
+    return redirect('/timeline')
+
 def viewStatus(request):
     if(request.method == 'POST'):
         pk = request.POST['pk']
         status = Status.objects.get(pk = pk)
         comment = Comments.objects.filter(user_id = pk) 
         return render(request, 'ViewStatus.html', {'status': status, 'comment': comment, 'postId': pk})
+
+def like(request):
+    if(request.method == 'POST'):
+        email = request.POST['email']
+        statusId = request.POST['statusId']
+        alreadyLiked = StatusLike.objects.get(email = email, model_id = statusId)
+        if(alreadyLiked is None):
+            new_data = StatusLike(email = email, model_id = statusId)
+            new_data.save()
+        return redirect('/timeline')
+
+def messenger(request):
+    return render(request, 'messenger.html')

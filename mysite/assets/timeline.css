@@ -5,18 +5,16 @@
   /* Create three unequal columns that floats next to each other */
   .column {
     float: left;
-    padding: 2%;
     height: 100%; /* Should be removed. Only for demonstration */
   }
   
   .left, .right {
     width: 25%;
-    
     height:calc(100vh - 40px);
   }
   
   .middle {
-    width: 50%;
+    width: 45%;
     overflow-y: scroll;
     height:calc(100vh - 40px);
     
@@ -42,7 +40,7 @@
       width: 90%;
       height: auto;
       background-color: white;
-      margin-top: 2%;
+      margin-top: 1%;
       }
   
        .fa {
@@ -63,7 +61,7 @@
         }
         .form-container {
           max-width: 99%;
-          padding: 3%;
+          padding: 1%;
           background-color: white;
         }
         

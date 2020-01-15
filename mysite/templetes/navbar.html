@@ -12,12 +12,23 @@
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
   <title>Varsity Circle</title>
+  <style>
+    .btn {
+      color: white;
+      font-family: Georgia;
+    }
+
+    .btn:hover {
+      background-color: white;
+
+    }
+  </style>
 </head>
 
-<body>
-  <nav class="navbar navbar-expand-lg navbar-light" style="background-color:#009688">
-    <img src="media/logo.jpg" alt="" style="height: 3%;width: 3%;border-radius:50%; vertical-align:middle"> 
-    <a class="navbar-brand" href="#">VCKS</a>
+<body style="width: 99%;">
+  <nav class="navbar navbar-expand-lg navbar-light" style="background-color:#009688;width:101%">
+    <img src="media/logo.jpg" alt="" style="height: 3%;width: 3%;border-radius:50%; vertical-align:middle">
+    <a style="font-family:Georgia;" class="navbar-brand" href="#">Varsity Circle</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -26,36 +37,37 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a style="color: white;font:bold" class="nav-link" href="timeline">Home <span class="sr-only">(current)</span></a>
+          <a class="btn" class="nav-link" href="timeline">Home <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a style="color: white;font:bold" class="nav-link" href="me">{{user.username}}</a>
+          <a class="btn" class="nav-link" href="me">{{user.username}}</a>
         </li>
         <li class="nav-item">
-          <a style="color: white" class="nav-link" href="galary">Galary</a>
+          <a class="btn" class="nav-link" href="galary">Galary</a>
         </li>
         <li class="nav-item dropdown">
-          <a style="color: white" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
+          <a style="color: white;font-family:Georgia;" class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+            role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="members">Members</a>
             <a class="dropdown-item" href="#">Settings</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="logoutUser">Logout  </a>
+            <a class="dropdown-item" href="logoutUser">Logout </a>
           </div>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+          <a style="font-family:Georgia;" class="nav-link disabled" href="#" tabindex="-1"
+            aria-disabled="true">Disabled</a>
         </li>
 
-         <a class='fab fa-facebook-messenger' style='font-size:100%;margin-top:4%;margin-left:5%' href="#"></a>
+        <a class='fab fa-facebook-messenger' style='font-size:100%;margin-top:3%;margin-left:5%' href="messenger"></a>
 
       </ul>
       <form class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        <button style="color: black;" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
       </form>
     </div>
   </nav>

@@ -57,4 +57,9 @@ class Comments(models.Model):
     user = models.ForeignKey(Status, on_delete = models.CASCADE)
     Name = models.CharField(max_length = 50, null = True)
     comment = models.CharField(max_length = 2000, null = False)
+    time = models.DateTimeField(default = timezone.now)
+
+class StatusLike(models.Model):
+    model = models.OneToOneField(Status , on_delete = models.CASCADE)
+    email = models.CharField(max_length = 30)
 
