@@ -10,11 +10,12 @@
   
   .left, .right {
     width: 25%;
+    overflow-y: scroll;
     height:calc(100vh - 40px);
   }
   
   .middle {
-    width: 45%;
+    width: 50%;
     overflow-y: scroll;
     height:calc(100vh - 40px);
     

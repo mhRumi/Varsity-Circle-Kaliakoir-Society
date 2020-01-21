@@ -16,7 +16,6 @@ def login(request):
         email = request.POST['Email']
         password = request.POST['Password']
         name = email
-
         user = auth.authenticate(username = email, password = password)
 
         if(user is not None):
@@ -121,11 +120,12 @@ def like(request):
     if(request.method == 'POST'):
         email = request.POST['email']
         statusId = request.POST['statusId']
-        alreadyLiked = StatusLike.objects.get(email = email, model_id = statusId)
-        if(alreadyLiked is None):
+        alreadyLiked = StatusLike.objects.filter(email = email, model_id = statusId)
+        if(alreadyLiked.count() == 0):
             new_data = StatusLike(email = email, model_id = statusId)
             new_data.save()
         return redirect('/timeline')
 
 def messenger(request):
-    return render(request, 'messenger.html')
+    data = User.objects.all()
+    return render(request, 'messenger.html',{'data':data})

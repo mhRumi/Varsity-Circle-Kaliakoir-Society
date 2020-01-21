@@ -98,7 +98,7 @@
                 <div class="comment">
                     <form action="{% url 'comments' %}" method="POST">
                         {% csrf_token %}
-                        <textarea name="Comment" onkeydown="keycode(event)" oninput="resize(this)" id="comment"
+                        <textarea style="border-radius: 15px;background-color: #eee;border: 2px solid #ccc;" name="Comment" onkeydown="keycode(event)" oninput="resize(this)" id="comment"
                             placeholder="write a comment" rows="1"></textarea>
                         <input type="hidden" name="Name" value="{{user.username}}">
                         <input type="hidden" name="PK" value="{{status.pk}}">
@@ -137,7 +137,8 @@
                 </div>
 
                 <div class="row" style="margin-left: 1%;">
-                    <p>{{c.comment}} </p>
+                    <p style="font-family:Palatino Linotype;">{{c.comment}} </p>
+
                 </div>
             </div>
             {% endfor %}

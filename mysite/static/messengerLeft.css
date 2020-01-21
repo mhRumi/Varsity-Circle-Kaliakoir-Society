@@ -1,0 +1,46 @@
+
+/* Style the search box */
+#mySearch {
+    width: 90%;
+    font-size: 18px;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius:20px;
+    margin-top: 2%;
+  }
+  
+  /* Style the navigation menu inside the left column */
+  #myMenu {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+   
+  }
+  
+  #myMenu div div {
+
+    text-decoration: none;
+    color: black;
+    display: block;
+    border-radius:20px;
+  }
+  
+  #myMenu div div:hover {
+    background-color: #eee;
+  }
+
+  .avatarmessenger {
+    vertical-align: middle;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+
+}
+
+.vertical-center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
