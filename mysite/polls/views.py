@@ -9,6 +9,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponseRedirect
 name = ""
+
 # Create your views here.
 def login(request):
 
@@ -98,23 +99,31 @@ def comments(request):
         name = request.POST['Name']
         cmnt = request.POST['Comment']
         pk = request.POST['PK']
+        request.session['PostId'] = pk
         New_comment = Comments(Name = name, comment = cmnt, user_id = pk)
         New_comment.save()
-    return redirect('/timeline')
+    return redirect('/viewStatus')
 
 def deleteComment(request):
     if(request.method == 'POST'):
         pk = request.POST['pk']
         comment = Comments.objects.get(pk = pk)
         comment.delete()
-    return redirect('/timeline')
+    return redirect('/viewStatus')
 
 def viewStatus(request):
     if(request.method == 'POST'):
         pk = request.POST['pk']
+        request.session['PostId'] = pk
         status = Status.objects.get(pk = pk)
         comment = Comments.objects.filter(user_id = pk) 
         return render(request, 'ViewStatus.html', {'status': status, 'comment': comment, 'postId': pk})
+    else:
+        postId = request.session.get('PostId')
+        print(postId)
+        status = Status.objects.get(pk = postId)
+        comment = Comments.objects.filter(user_id = postId) 
+        return render(request, 'ViewStatus.html', {'status': status, 'comment': comment, 'postId': postId})
 
 def like(request):
     if(request.method == 'POST'):
@@ -125,7 +134,4 @@ def like(request):
             new_data = StatusLike(email = email, model_id = statusId)
             new_data.save()
         return redirect('/timeline')
-
-def messenger(request):
-    data = User.objects.all()
-    return render(request, 'messenger.html',{'data':data})
+        

@@ -102,7 +102,7 @@
           </div>
 
           <div class="col ">
-            <form action="{% url 'deletePost' s.pk %}" method="POST">
+            <form action="{% url 'polls:deletePost' s.pk %}" method="POST">
               {% csrf_token %}
               <div align="right">
                 <button data-toggle="tooltip" title="Delete" type="submit" class="fa fa-ellipsis-h"
@@ -139,7 +139,7 @@
 
       <!-- comments section -->
       <div class="comment">
-        <form action="{% url 'comments' %}" method="POST">
+        <form action="polls:comments" method="POST">
           {% csrf_token %}
           <textarea  style="border-radius: 15px;background-color: #eee;border: 2px solid #ccc;" name="Comment"
             onkeydown="keycode(event)" oninput="resize(this)" id="comment" placeholder="write a comment" rows="1"

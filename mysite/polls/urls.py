@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-
+app_name  = 'polls'
 urlpatterns = [
     path('',views.login, name = 'login'),
     path('timeline', views.timeline, name = 'timeline'),
@@ -16,6 +16,5 @@ urlpatterns = [
     path('viewStatus', views.viewStatus, name = 'viewStatus'),
     path('deleteComment', views.deleteComment, name = 'deleteComment'),
     path('like', views.like, name = "like"),
-    path('messenger', views.messenger, name = "messenger"),
 ]
 

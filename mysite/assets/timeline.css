@@ -85,6 +85,7 @@
         .comment textarea{
           width: 90%;
           resize: none;
+          padding-left:3%
     
         }
         
@@ -214,3 +215,5 @@
             .form-container .btn:hover, .open-button:hover {
               opacity: 1;
             } 
+
+            

@@ -33,5 +33,10 @@
     
     margin-left: 2%;
     }
-
-
+.selfmessage{
+    padding: 1%;
+    font-family:Palatino Linotype;
+    background:rgb(34, 34, 245);
+    border-radius:25px;
+    text-align:right
+}

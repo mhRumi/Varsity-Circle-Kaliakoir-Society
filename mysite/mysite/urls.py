@@ -22,11 +22,11 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('', include('polls.urls')),
     path('registration', include('polls.urls')),
-    path('timeline', include('polls.urls')),
-    path('galary', include('polls.urls')),
-    path('me', include('polls.urls')),
+   # path('timeline', include('polls.urls')),
+    #path('galary', include('polls.urls')),
+    # path('me/', include('polls.urls')),
     path('admin/', admin.site.urls),
-    path('logoutUser', include('polls.urls')),
+    #path('logoutUser', include('polls.urls')),
     path('login', include('polls.urls')),
     path('members', include('polls.urls')),
     path('deletePost/<int:pk>/', include('polls.urls')),
@@ -34,7 +34,7 @@ urlpatterns = [
     path('viewStatus', include('polls.urls')),
     path('deleteComment', include('polls.urls')),
     path('like', include('polls.urls')),
-    path('messenger', include('polls.urls')),
+    path('messenger', include('messenger.urls')),
 ]
 
 if settings.DEBUG:
