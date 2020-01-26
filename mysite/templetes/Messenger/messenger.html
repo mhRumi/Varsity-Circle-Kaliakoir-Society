@@ -18,7 +18,7 @@
             position: sticky;
             top: 0;
             background-color: lightgray;
-            padding: 2%;
+            padding: 0.5%;
             font-size: 20px;
         }
 
@@ -46,30 +46,47 @@
             color: white;
             padding: 8px 16px
         }
-        .othermessage{
+
+        .othermessage {
             padding: 1%;
             font-family: Palatino Linotype;
-            background:lightgray;
+            background: lightgray;
             border-radius: 25px;
             text-align: right;
             width: auto;
             display: inline-block;
         }
 
+        .text {
+            border-radius: 25px;
+            width: 90%;
+            resize: none;
+            padding-left: 3%;
+
+        }
+
+        .avatar {
+            vertical-align: middle;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
     </style>
 
 </head>
 
 <body style="background-color: lightgray;">
     <div class="row">
-        <div align="center" id="myMenu" class="column left" style="background-color:white;">
-            <input type="text" align="center" id="mySearch" onkeyup="myFunction()" placeholder="Search">
+        <div onmouseover="setId()" align="center" id="myMenu" class="column left" style="background-color:white;">
+            <input style="background-color: lightgray;padding-left:4%" type="text" align="center" id="mySearch"
+                onkeyup="myFunction()" placeholder="Search">
             {% for d in data %}
             <div class="row" style="border-radius:30px;margin:3%;padding:1%;">
-
                 <img class="avatarM" src="{{user.profile.image.url}}" alt="Avatar">
-                <div class="col" align="center" style="vertical-align: center">
+                <div class="col" align="center" onclick="getdata(this)" style="vertical-align: center;">
                     <p class="vertical-center">{{d.username}}</p>
+                    <input type="hidden" value="{{d.pk}}">
+                    <button type="submit" style="display: none;" id="getmsg"></button>
                 </div>
             </div>
             {% endfor %}
@@ -77,33 +94,37 @@
 
         <div align="center" class="column middle" style="background-color:white;">
             <div class="sticky">
-                Details of receipent
+                <div class="row">
+                    
+                    <div style="margin-left: 2.5%;height:5%">
+                        <img class="avatar" src="{{user.profile.image.url}}" alt="Avatar">
+                    </div>
+                    <div>
+                        <p id="recipent" style="padding-left: 20%;padding-top:10%">{{user.username}}</p>
+                    </div>
+                    
+                </div>
             </div>
-            <div class="status">
-
+            <div class="status" style="margin-bottom: 5%;">
+                {% for m in msg %}
+                {% if m.model_id == f %}
                 <div align="right">
-                    <p class="selfmessage">Lorem ipsum dolor sit amet,nulla et dictum interdum,</p>
+                    <p class="selfmessage" >{{m.message}}</p>
                 </div>
-                <div align = "left">
-                    <p class="othermessage">
-                        nulla et dictum interdum,
-
-                    </p>
-
+                {% else %}
+                <div align="left">
+                    <p class="othermessage" >{{m.message}}</p>
                 </div>
-
-
-
-
+                {% endif %}
+                {% endfor %}
             </div>
-            <div class="footer" align="center">
-                <form action="" method="POST">
+            <div class="footer" id="footer" align="center">
+                <form action="{% url 'conversation' %}" method="POST">
                     {% csrf_token %}
-                    <textarea style="border-radius: 15px;background-color: #eee;border: 2px solid #ccc;width:90%"
-                        name="Comment" onkeydown="keycode(event)" oninput="resize(this)" id="comment"
-                        placeholder="message" rows="1" required>
-                    </textarea>
-                    <button id="submit" style="display: none;" type="submit"></button>
+                    <textarea class="text" name="message" id="" onkeydown="keycode(event)" oninput="resize(this)"
+                        cols="30" rows="1"></textarea>
+                    <input type="hidden" name="To" id="to" value="">
+                    <button id="send" style="display: none;" type="submit"></button>
                 </form>
             </div>
         </div>
@@ -131,6 +152,48 @@
                 }
             }
         }
+
+        function setId() {
+            var topDiv, ul, li, b, c;
+            ul = document.getElementById("myMenu");
+            li = ul.getElementsByTagName("div");
+            for (i = 0; i < li.length; i++) {
+                a = li[i].getElementsByTagName("div")[0];
+                b = li[i].getElementsByTagName("p")[0];
+                b.setId = "name"+i;
+                c = li[i].getElementsByTagName("input")[0];
+                c.setId = "id"+i;
+
+            }
+        }
+
+            function resize(comment) {
+                comment.style.height = 'auto';
+                comment.style.height = (comment.scrollHeight) + "px";
+
+                footer = document.getElementById("footer");
+                footer.style.height = 'auto';
+                footer.style.height = (footer.scrollHeight) + "px";
+            }
+
+
+            function keycode(event) {
+                var input = event.keyCode;
+                if (input == 13) {
+                    document.getElementById("send").click();
+                }
+            }
+
+            function getdata(a) {
+                document.getElementById("getmsg").click();
+                var b = a.getElementsByTagName("p");
+                var c = b[0].innerHTML;
+                document.getElementById("recipent").innerHTML = c;
+                var d = a.getElementsByTagName("input");
+                document.getElementById("to").value = d[0].value;
+                
+                
+            }
 
     </script>
 

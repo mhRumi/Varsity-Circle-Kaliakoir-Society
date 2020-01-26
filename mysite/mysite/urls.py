@@ -35,6 +35,7 @@ urlpatterns = [
     path('deleteComment', include('polls.urls')),
     path('like', include('polls.urls')),
     path('messenger', include('messenger.urls')),
+    #path('conversation', include('messenger.urls')),
 ]
 
 if settings.DEBUG:

@@ -21,6 +21,7 @@ def login(request):
 
         if(user is not None):
             auth.login(request, user)
+            request.session['userId'] = user.pk
             return redirect('/timeline')
         else:
             messages.info(request, 'Incorrect email or password')
@@ -120,7 +121,6 @@ def viewStatus(request):
         return render(request, 'ViewStatus.html', {'status': status, 'comment': comment, 'postId': pk})
     else:
         postId = request.session.get('PostId')
-        print(postId)
         status = Status.objects.get(pk = postId)
         comment = Comments.objects.filter(user_id = postId) 
         return render(request, 'ViewStatus.html', {'status': status, 'comment': comment, 'postId': postId})
