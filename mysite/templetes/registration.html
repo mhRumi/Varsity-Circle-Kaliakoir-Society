@@ -1,119 +1,116 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'Login/main.css' %}">
 
     <style>
         .fullbody {
-            background-color: rgb(42, 184, 172);
+            background-color: rgb(14, 17, 17);
             position: absolute;
             top: 0;
             right: 0;
             bottom: 0;
             left: 0;
+            resize: none;
 
         }
 
         .divElement {
             border-radius: 10px;
-            position: absolute;
-            margin: auto;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            width: 30%;
-            height: 70%;
-            background-color: rgb(165, 199, 133);
+            width: 40%;
+            height: 73%;
+            background-color: white;
             display: block;
+            margin-top: 6%;
+
         }
-
-        .textfield{
-
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            height: 8%;
-            width: 60%;
-            border-radius: 10px;
-            align-self: auto;
-            position: absolute;
-            margin-top: 25%;
-            margin-left: auto;
-            margin-right: auto;
-            margin-bottom: auto;
-            padding:auto;
-            
-        }
-
-        .forbutton{
-
-            font-size:30px;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            height: 8%;
-            width: 60%;
-            border-radius: 10px;
-            align-self: auto;
-            position: absolute;
-            margin-left: auto;
-            margin-right: auto;
-            margin-top: 85%;
-            background-color: chartreuse;
-            
-        }
-
-  
     </style>
 </head>
 
 <body>
     <div align="center" class="fullbody">
+        <div style="margin-top: 2%">
+            {% for message in messages %}
+            <h3 style='-webkit-text-fill-color: red'>{{message}}</h3>
+            {% endfor %}
+        </div>
         <div align="center" class="divElement">
-
-            <div>
-                <h1 align = 'center'>Create an account</h1>
+            <div style="margin-bottom: 4%;">
+                <h1 align='center'>Create an account</h1>
             </div>
-            <div >
 
-            <form action="registration" method="POST">
-                    {% csrf_token %}
-                <div>
-                    <input required class="textfield" type="text" name="Name" id="" placeholder="Name" style="text-align: center"> 
-                </div>
-                <div>
-                    <input required class="textfield" type="email" name="Email" id="" placeholder="Email" style="text-align: center;margin-top:40%"> 
-                </div>
-                
-                <div>
-                    <input required class="textfield" type="password" name="Password1" id="" placeholder="Password" style="text-align: center;margin-top:55%">
-                </div>
-                <div>
-                    <input required class="textfield" type="password" name="Password2" id="" placeholder="Retype Password" style="text-align: center;margin-top:70%">
+
+            <form action="{% url 'polls:registration' %}" method="POST">
+                {% csrf_token %}
+                <div class="wrap-input100 validate-input" style="width: 60%;">
+                    <input class="input100" type="text" name="FName" placeholder="First Name">
+                    <span class="focus-input100"></span>
                 </div>
 
-                <div>
-                    <input class="forbutton" type="submit" value="Sign up" >
+                <div class="wrap-input100 validate-input" style="width: 60%;">
+                    <input class="input100" type="text" name="LName" placeholder="Last Name">
+                    <span class="focus-input100"></span>
                 </div>
 
-                <div style="margin-top:88%">
-                    <a   href="login">already have an account?</a>
+                <div class="wrap-input100 validate-input" style="width: 60%;">
+                    <input class="input100" type="email" name="Email" placeholder="Email">
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100">
+                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                    </span>
+                </div>
+
+                <div class="wrap-input100 validate-input" style="width: 60%;">
+                    <input class="input100" type="password" id="pass1" name="Password1" placeholder="Password">
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100">
+                        <i class="fa fa-lock" aria-hidden="true"></i>
+                    </span>
+                </div>
+
+                <div class="wrap-input100 validate-input" style="width: 60%;">
+                    <input class="input100" type="password" id="pass2" name="Password2" oninput="passwordCheck()"placeholder="Retype password">
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100">
+                        <i class="fa fa-lock" aria-hidden="true"></i>
+                    </span>
+                </div>
+
+                <div class="container-login100-form-btn" style="width:60%">
+                    <input class="login100-form-btn" type="submit" id="btn" disabled value="Sign up">
+                </div>
+
+
+                <div class="text-center p-t-136" style="margin-top:5%;text-decoration: none;">
+                    <a class="txt2" href="login" style="text-decoration: none;">
+                        already have an account?
+                        <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+                    </a>
                 </div>
 
             </form>
-                <div style="margin-top: 5%">
-                    {% for message in messages %}
-                    <h3 style = '-webkit-text-fill-color: red'>{{message}}</h3>
-                    {% endfor %}
-                </div>
-            </div>
 
-        </div>  
+        </div>
     </div>
+
+    <script>
+        function passwordCheck() {
+            var pass1 = document.getElementById("pass1").value;
+            var pass2 = document.getElementById("pass2").value;
+            if(pass1 == pass2){
+                document.getElementById('pass2').style.color = 'gray';
+                document.getElementById("btn").disabled = false;
+            }else{
+                document.getElementById('pass2').style.color = 'red';
+                document.getElementById("pass2").innerHTML = "not matching"
+            }
+
+        }
+    </script>
 
 </body>
 

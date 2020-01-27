@@ -40,7 +40,7 @@
           <a class="btn" class="nav-link" href="{% url 'polls:timeline' %}">Home <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="btn" class="nav-link" href="me">{{user.username}}</a>
+          <a class="btn" style="overflow-y:hidden" class="nav-link" href="me">{{user.first_name}}</a>
         </li>
         <li class="nav-item">
           <a class="btn" class="nav-link" href="{% url 'polls:galary' %}">Galary</a>

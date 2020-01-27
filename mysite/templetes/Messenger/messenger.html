@@ -84,7 +84,7 @@
             <div class="row" style="border-radius:30px;margin:3%;padding:1%;">
                 <img class="avatarM" src="{{user.profile.image.url}}" alt="Avatar">
                 <div class="col" align="center" onclick="getdata(this)" style="vertical-align: center;">
-                    <p class="vertical-center">{{d.username}}</p>
+                    <p class="vertical-center" style="font-family:Palatino Linotype;">{{d.first_name}} {{d.last_name}}</p>
                     <input type="hidden" value="{{d.pk}}">
                     <button type="submit" style="display: none;" id="getmsg"></button>
                 </div>
@@ -99,8 +99,8 @@
                     <div style="margin-left: 2.5%;height:5%">
                         <img class="avatar" src="{{user.profile.image.url}}" alt="Avatar">
                     </div>
-                    <div>
-                        <p id="recipent" style="padding-left: 20%;padding-top:10%">{{user.username}}</p>
+                    <div style="width:60%" align = "left">
+                        <p id="recipent" style="margin-left:5%;padding-top:3%;font-family:Palatino Linotype;">{{user.first_name}} {{user.last_name}}</p>
                     </div>
                     
                 </div>

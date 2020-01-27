@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
-from .models import Status, Userlogin, Education, Work, Profile, Comments, StatusLike
+from .models import Status, Education, Work, Profile, Comments, StatusLike
 from django.core import serializers
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
@@ -18,7 +18,7 @@ def login(request):
         password = request.POST['Password']
         name = email
         user = auth.authenticate(username = email, password = password)
-
+        request.session['userId'] = user.pk
         if(user is not None):
             auth.login(request, user)
             request.session['userId'] = user.pk
@@ -28,42 +28,33 @@ def login(request):
             return redirect('/')
 
     else:
-        return render(request, 'login.html')
+        return render(request, 'Login/login.html')
 @login_required
 def timeline(request):
     status = Status.objects.order_by('-id') 
-    user = Userlogin.objects.filter(name = 'Rumi')
-    image = ""
-    for s in user:
-        image = s.image
-    return render(request, 'timeline.html', {'status': status}, {'image': image})
+    return render(request, 'timeline.html', {'status': status})
 
 def registration(request):
     if( request.method == 'POST'):
-        name = request.POST['Name']
+        Fname = request.POST['FName']
+        Lname = request.POST['LName']
         email = request.POST['Email']
         password1 = request.POST['Password1']
         password2 = request.POST['Password2']
 
-        if(password1 == password2):
-
-            user = User.objects.create_user(username = name, password = password1, email = email)
-            user.save()
-
-            anotherUser = Userlogin(name = name, email = email, password = password1, image= 'user.png')
-            anotherUser.save()
-            status = Status.objects.order_by('time')
-            return render(request, 'timeline.html', {'status': status})
-        else:
-            messages.info(request, 'Password does not match')
-            return redirect('registration')
+        user = User.objects.create_user(username = email, password = password1, email = email, first_name = Fname, last_name = Lname)
+        user.save()
+        profile = Profile(image= 'user.png', user_id = user.pk)
+        profile.save()
+        return render(request, 'Login/login.html')
     else:
         return render(request, 'registration.html')
 
 def status(request):
     if(request.method == 'POST'):
         status = request.POST['status']
-        new_status = Status(email = 'rumiswe@gmail.com', status = status, like = 0, name = 'rumi')
+        user = User.objects.get(pk = request.session.get('userId'))
+        new_status = Status(email = user.email, status = status, like = 0, name = user.first_name)
         new_status.save()
         status = Status.objects.order_by('-id')
         return render(request, 'timeline.html', {'status': status})
@@ -76,10 +67,8 @@ def galary(request):
 
 @login_required
 def me(request):
-    work = Work.objects.all()
-    test = User.objects.filter(username = name)   
-    info = Education.objects.all()
-
+    work = Work.objects.filter(user_id = request.session.get('userId'))   
+    info = Education.objects.filter(user_id = request.session.get('userId'))
     return render(request, 'me.html', { 'work': work, 'education': info} )
 
 def logoutUser(request):
